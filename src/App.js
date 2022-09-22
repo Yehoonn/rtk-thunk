@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { getData } from "./dataSlice";
+import "./App.css";
 
 function App() {
+  const disPatch = useDispatch();
+  const number = useSelector((store) => {
+    return store.data.value;
+  });
+  const state = useSelector((store) => {
+    return store.data.status;
+  });
+  const click = () => {
+    disPatch(getData());
+  };
+
+  if (state === "loading") {
+    return <h1>로딩중입니다</h1>;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button onClick={click}>RTK THUNK</button>
+      <h1>{number}</h1>
+      <h2>{state}</h2>
+    </>
   );
 }
 
